@@ -45,7 +45,7 @@ def generate_launch_description():
         ),
 
         Node(
-            package="lazo_abierto",
+            package="lazo_cerrado",
             executable="trajectory_generator",
             name="trajectory_generator",
             output="screen",
