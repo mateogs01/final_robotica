@@ -12,7 +12,7 @@ robmovil_ekf::Localizer::Localizer() :
   // Get node parameters
   this->declare_parameter("base_link_frame", std::string("base_link_ekf"));
   this->declare_parameter("ekf_frame", std::string("odom"));
-  this->declare_parameter("laser_frame", std::string("laser"));
+  this->declare_parameter("laser_frame", std::string("front_laser"));
   this->declare_parameter("only_prediction", false);
   this->declare_parameter("min_landmark_size", 2);
 
@@ -25,6 +25,7 @@ robmovil_ekf::Localizer::Localizer() :
   landmark_sub = this->create_subscription<robmovil_msgs::msg::LandmarkArray>( "/landmarks", rclcpp::QoS(10), std::bind(&Localizer::on_landmark_array, this, std::placeholders::_1));
   imu_sub = this->create_subscription<sensor_msgs::msg::Imu>( "/imu", rclcpp::QoS(10), std::bind(&Localizer::on_imu, this, std::placeholders::_1));
   odo_sub = this->create_subscription<nav_msgs::msg::Odometry>( "/robot/odometry", rclcpp::QoS(10), std::bind(&Localizer::on_odometry, this, std::placeholders::_1));
+  posts_sub = this->create_subscription<geometry_msgs::msg::PoseArray>( "/posts", rclcpp::QoS(10), std::bind(&Localizer::on_posts_array, this, std::placeholders::_1));
 
   pose_pub = this->create_publisher<geometry_msgs::msg::PoseWithCovarianceStamped>("/pose", rclcpp::QoS(10));
   
@@ -65,6 +66,17 @@ void robmovil_ekf::Localizer::prediction(const rclcpp::Time& now)
   RCLCPP_INFO_STREAM(this->get_logger(), "Predicted covariance: " << P);
 }
 
+
+void robmovil_ekf::Localizer::on_posts_array(const geometry_msgs::msg::PoseArray::SharedPtr msg)
+{
+  RCLCPP_INFO(this->get_logger(), "Creating map");
+
+  ekf.set_map(msg);
+
+  return;
+}
+
+
 void robmovil_ekf::Localizer::on_landmark_array(const robmovil_msgs::msg::LandmarkArray::SharedPtr msg)
 {
   RCLCPP_INFO(this->get_logger(), "Only prediction: %d", only_prediction); // Prints 0 or 1
@@ -75,6 +87,8 @@ void robmovil_ekf::Localizer::on_landmark_array(const robmovil_msgs::msg::Landma
 
   /* Ante el primer update, tomo las poses de los postes y me las guardo como un mapa
    * Se asume que la pose actual del robot es tomada como origen de la localizacion */
+  
+/*
   if (set_map)
   {
     RCLCPP_INFO(this->get_logger(), "Creating map");
@@ -96,6 +110,7 @@ void robmovil_ekf::Localizer::on_landmark_array(const robmovil_msgs::msg::Landma
     
     return;
   }
+*/
   
   /* Se apaga el timer que predice periodicamente dado que
    * se predice y actualiza dadas las mediciones recibidas */
@@ -103,6 +118,8 @@ void robmovil_ekf::Localizer::on_landmark_array(const robmovil_msgs::msg::Landma
 
   // Prediccion avanzando el tiempo al momento del sensado
   prediction(msg->header.stamp);
+
+  RCLCPP_INFO(this->get_logger(), "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 
   /* hacer update(s) */
   for (int i = 0; i < msg->landmarks.size(); i++)
@@ -134,8 +151,10 @@ void robmovil_ekf::Localizer::on_landmark_array(const robmovil_msgs::msg::Landma
 
 void robmovil_ekf::Localizer::on_imu(const sensor_msgs::msg::Imu::SharedPtr msg)
 {
+/*
   u(3) = msg->angular_velocity.z;
   RCLCPP_INFO(this->get_logger(), "Received angular velocity Z: %f", u(3));
+*/
 }
 
 void robmovil_ekf::Localizer::on_odometry(const nav_msgs::msg::Odometry::SharedPtr msg)
@@ -144,6 +163,8 @@ void robmovil_ekf::Localizer::on_odometry(const nav_msgs::msg::Odometry::SharedP
   RCLCPP_INFO(this->get_logger(), "Received linear velocity X: %f", u(1));
   u(2) = msg->twist.twist.linear.y;
   RCLCPP_INFO(this->get_logger(), "Received linear velocity Y: %f", u(2));
+  u(3) = msg->twist.twist.angular.z;
+  RCLCPP_INFO(this->get_logger(), "Received angular velocity Z: %f", u(3));
 }
 
 void robmovil_ekf::Localizer::advance_time(const rclcpp::Time& now)

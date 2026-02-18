@@ -61,7 +61,7 @@ def generate_launch_description():
             executable='localizer',
             name='localizer',
             output='screen',
-            parameters=[{'only_prediction': True},
+            parameters=[{'only_prediction': False},
                         {'min_landmark_size': 2},
                         {"use_sim_time": True}],
         ),

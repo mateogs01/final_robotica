@@ -15,14 +15,14 @@
 robmovil_ekf::LandmarkDetector::LandmarkDetector() :
     Node("landmark_detector_node"), tf_buffer(this->get_clock()), tf_listener(tf_buffer), transform_received(false)
 {
-  laser_sub = this->create_subscription<sensor_msgs::msg::LaserScan>( "/scan", rclcpp::QoS(10), std::bind(&LandmarkDetector::on_laser_scan, this, std::placeholders::_1));
+  laser_sub = this->create_subscription<sensor_msgs::msg::LaserScan>( "/robot/front_laser/scan", rclcpp::QoS(10), std::bind(&LandmarkDetector::on_laser_scan, this, std::placeholders::_1));
   landmark_pub = this->create_publisher<robmovil_msgs::msg::LandmarkArray>("/landmarks", rclcpp::QoS(10));
   pointcloud_pub = this->create_publisher<sensor_msgs::msg::PointCloud>("/landmarks_pointcloud", rclcpp::QoS(10));
 
   
   this->declare_parameter("robot_frame", std::string("base_link"));
   this->declare_parameter("publish_robot_frame", std::string("base_link"));
-  this->declare_parameter("laser_frame", std::string("laser"));
+  this->declare_parameter("laser_frame", std::string("front_laser"));
 
   this->get_parameter("robot_frame", robot_frame);
   this->get_parameter("publish_robot_frame", publish_robot_frame);

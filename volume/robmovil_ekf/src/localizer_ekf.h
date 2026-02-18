@@ -3,6 +3,7 @@
 
 #include <rclcpp/rclcpp.hpp>
 #include <kalman/ekfilter.hpp>
+#include <geometry_msgs/msg/pose_array.hpp>
 #include <tf2/LinearMath/Vector3.h>
 #include <tf2/LinearMath/Quaternion.h>
 #include <tf2/LinearMath/Transform.h>
@@ -56,7 +57,7 @@ namespace robmovil_ekf
       /* modelo de sensado */
       void makeMeasure(void);
       
-      void set_map(const std::vector<Vector>& observations);
+      void set_map(const geometry_msgs::msg::PoseArray::SharedPtr msg);
       void set_delta_t(double delta); // seconds
       bool set_measure(const Vector& measured_z);
 

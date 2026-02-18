@@ -6,6 +6,7 @@
 #include <sensor_msgs/msg/imu.hpp>
 #include <nav_msgs/msg/odometry.hpp>
 #include <geometry_msgs/msg/pose_with_covariance_stamped.hpp>
+#include <geometry_msgs/msg/pose_array.hpp>
 #include <tf2_ros/transform_broadcaster.h>
 #include <tf2/LinearMath/Transform.h>
 
@@ -20,6 +21,7 @@ namespace robmovil_ekf {
       void on_landmark_array(const robmovil_msgs::msg::LandmarkArray::SharedPtr msg);
       void on_imu(const sensor_msgs::msg::Imu::SharedPtr msg);
       void on_odometry(const nav_msgs::msg::Odometry::SharedPtr msg);
+      void on_posts_array(const geometry_msgs::msg::PoseArray::SharedPtr msg);
 
     private:
       LocalizerEKF ekf;
@@ -30,6 +32,7 @@ namespace robmovil_ekf {
       rclcpp::Subscription<robmovil_msgs::msg::LandmarkArray>::SharedPtr landmark_sub;
       rclcpp::Subscription<sensor_msgs::msg::Imu>::SharedPtr imu_sub;
       rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odo_sub;
+      rclcpp::Subscription<geometry_msgs::msg::PoseArray>::SharedPtr posts_sub;
       rclcpp::Publisher<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr pose_pub;
       std::string base_frame_, map_frame_, laser_frame_;
       
