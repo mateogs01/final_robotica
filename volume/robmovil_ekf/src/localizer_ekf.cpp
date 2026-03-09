@@ -4,7 +4,7 @@
 
 #define NEAREST_NEIGHBOR_RADIUS 1.0
 
-robmovil_ekf::LocalizerEKF::LocalizerEKF(void) : EKFilter(3, 2, 3, 2, 2)
+robmovil_ekf::LocalizerEKF::LocalizerEKF(void) : EKFilter(3, 3, 3, 2, 2)
 {
   delta_t = 0;
 
@@ -34,23 +34,26 @@ robmovil_ekf::LocalizerEKF::LocalizerEKF(void) : EKFilter(3, 2, 3, 2, 2)
 }
 
 
-void robmovil_ekf::LocalizerEKF::set_map(geometry_msgs::msg::PoseArray::SharedPtr msg)
+void robmovil_ekf::LocalizerEKF::set_map(const std::vector<geometry_msgs::msg::Pose>& poses)
 {
-  /* Nota: Se asume x = 0, el origen de coordenadas del mapa comienza donde el robot esta ahora,
-   * los landmarks se guardar en relacion al mapa */
-
-  std::vector<LocalizerEKF::Vector> map;
-  for (int i = 0; i < msg->poses.size(); i++)
+  // Limpiar el mapa anterior si es necesario
+  map_landmarks.clear();
+  map_landmarks.reserve(poses.size());  // Pre-asignar memoria
+  
+  for (const auto& pose : poses)
   {
     tf2::Vector3 landmark;
-    
-    landmark.setX(msg->poses[i].position.x);
-    landmark.setY(msg->poses[i].position.y);
-    landmark.setZ(msg->poses[i].position.z);
+    landmark.setX(pose.position.x);
+    landmark.setY(pose.position.y);
+    landmark.setZ(pose.position.z);
     map_landmarks.push_back(landmark);
     
-    RCLCPP_INFO(rclcpp::get_logger("robmovil_ekf"), "Landmark: %f, %f, %f", landmark.getX(), landmark.getY(), landmark.getZ());
+    RCLCPP_INFO(rclcpp::get_logger("robmovil_ekf"), "Landmark: %f, %f, %f", 
+                landmark.getX(), landmark.getY(), landmark.getZ());
   }
+  
+  RCLCPP_INFO(rclcpp::get_logger("robmovil_ekf"), "Map loaded with %zu landmarks", 
+              map_landmarks.size());
 }
 
 
@@ -99,7 +102,6 @@ void robmovil_ekf::LocalizerEKF::makeBaseA(void)
  *  La matriz se actualiza en cada ciclo de actualizacion de tiempo (prediccion) */
 void robmovil_ekf::LocalizerEKF::makeA(void)
 {
-  /* COMPLETAR: Utilizando variables globales x, u y delta_t */
   auto vx = u(1);
   auto vy = u(2);
   auto theta = x(3);
@@ -114,7 +116,7 @@ void robmovil_ekf::LocalizerEKF::makeA(void)
 /** Jacobiano de W respecto de f */
 void robmovil_ekf::LocalizerEKF::makeBaseW(void)
 {
-  /* COMPLETAR: Con las derivadas del modelo de movimiento (o proceso) con respecto al ruido ADITIVO w */
+  /* derivadas del modelo de movimiento (o proceso) con respecto al ruido ADITIVO w */
   
   W(1,1) = 1;
   W(1,2) = 0;
@@ -125,8 +127,6 @@ void robmovil_ekf::LocalizerEKF::makeBaseW(void)
   W(3,1) = 0;
   W(3,2) = 0;
   W(3,3) = 1;
-
-
 }
 
 /** covarianza de W (ruido en f) */
@@ -176,8 +176,7 @@ void robmovil_ekf::LocalizerEKF::makeH(void)
 
     RCLCPP_INFO(rclcpp::get_logger("robmovil_ekf"), "Landmark too close to robot! Fake H used");
   } else {
-    
-    /* COMPLETAR: Calcular H en base al landmark del mapa relativo al robot */
+    /* Calcular H en base al landmark del mapa relativo al robot */
     
     double dx = diff_robot_landmark[0];
     double dy = diff_robot_landmark[1];
@@ -196,8 +195,6 @@ void robmovil_ekf::LocalizerEKF::makeH(void)
 /** Jacobiano de H respecto de v **/
 void robmovil_ekf::LocalizerEKF::makeBaseV(void)
 {
-  /* COMPLETAR: Con las derivadas del modelo de sensado con respecto al ruido ADITIVO v */
-  
   V(1,1) = 1;
   V(1,2) = 0;
   V(2,1) = 0;

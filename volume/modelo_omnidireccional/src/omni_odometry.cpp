@@ -30,7 +30,6 @@ OmniOdometry::OmniOdometry() : Node("nodeOdometry"), x_(0), y_(0), theta_(0), ti
 
 void OmniOdometry::on_velocity_cmd(const geometry_msgs::msg::Twist::SharedPtr twist)
 {
-  /** Completar los mensajes de velocidad vLeft y vRight*/
   double linearVel = twist->linear.x;
   double transvVel = twist->linear.y;
   double angularVel = twist->angular.z;
@@ -90,9 +89,6 @@ void OmniOdometry::on_encoder_ticks(const robmovil_msgs::msg::MultiEncoderTicks:
   int32_t delta_ticks_rear_left = encoder->ticks[2] - last_ticks_3;
   int32_t delta_ticks_rear_right = encoder->ticks[3] - last_ticks_4;
 
-  // calcular el desplazamiento relativo: delta_x, delta_y, delta_theta
-
-  /* Utilizar este delta de tiempo entre momentos */
   rclcpp::Time current_time(encoder->header.stamp);
   double delta_t = (current_time - last_ticks_time).seconds();
 
@@ -104,7 +100,6 @@ void OmniOdometry::on_encoder_ticks(const robmovil_msgs::msg::MultiEncoderTicks:
   double vx = (omega_1 + omega_2 + omega_3 + omega_4) * WHEEL_RADIUS / 4;
   double vy = (-omega_1 + omega_2 + omega_3 - omega_4) * WHEEL_RADIUS / 4;
   double omega = (-omega_1 + omega_2 - omega_3 + omega_4) * WHEEL_RADIUS / (4 * 2 *WHEEL_BASELINE);
-  //double theta = omega * delta_t;
   
   double vx_inercial = vx * cos(theta_) - vy * sin(theta_);
   double vy_inercial = vx * sin(theta_) + vy * cos(theta_);
@@ -114,15 +109,6 @@ void OmniOdometry::on_encoder_ticks(const robmovil_msgs::msg::MultiEncoderTicks:
   double delta_y = vy_inercial * delta_t;
   double delta_theta = omega_inercial * delta_t;
 
-
-  //double d_izq = M_PI * 2 * WHEEL_RADIUS * delta_ticks_left / ENCODER_TICKS ;
-  //double d_der = M_PI * 2 * WHEEL_RADIUS * delta_ticks_right / ENCODER_TICKS ;
-
-  //double delta_theta = (d_der - d_izq) / WHEEL_BASELINE;
-  //double d = (d_izq + d_der) / 2;
-
-  //double delta_x = d * cos(theta_);
-  //double delta_y = d * sin(theta_);
 
   x_ += delta_x;
   y_ += delta_y;

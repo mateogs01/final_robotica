@@ -36,7 +36,6 @@ int main(int argc, char** argv)
   robmovil_msgs::msg::Trajectory trajectory_msg;
   nav_msgs::msg::Path path_msg;
 
-  //trajectory_msg.header.seq = 0;
   trajectory_msg.header.stamp = trajectory_generator_node->now();
   trajectory_msg.header.frame_id = "odom";
 
@@ -95,7 +94,6 @@ int main(int argc, char** argv)
 
 void build_sin_trajectory(double stepping, double total_time, double amplitude, double cycles, robmovil_msgs::msg::Trajectory& trajectory_msg, nav_msgs::msg::Path& path_msg)
 {
-  // atan2(vy(0), vx(0)) = orientacion inicial
   double initial_orientation = atan2( amplitude * (cycles * 2*M_PI * 1/total_time), cycles * 2*M_PI * 1/total_time );
   
   for (double t = 0; t <= total_time; t = t + stepping)
@@ -169,10 +167,9 @@ void build_sin_trajectory(double stepping, double total_time, double amplitude, 
 
 void build_spline_trajectory(double stepping, std::vector<std::vector<double>>& wpoints, robmovil_msgs::msg::Trajectory& trajectory_msg, nav_msgs::msg::Path& path_msg)
 {
-	
-	// number of points in the trajectory
-	int n_total_points = wpoints.size();
-	std::cout << n_total_points << std::endl;
+  // number of points in the trajectory
+  int n_total_points = wpoints.size();
+  std::cout << n_total_points << std::endl;
 
 
   double vx_i = 0;
@@ -214,8 +211,6 @@ void build_spline_trajectory(double stepping, std::vector<std::vector<double>>& 
      w_f = 2;*/
     
     // polynomial parameters
-
-    /* COMPLETAR LOS PARÁMETROS DE LOS POLINOMIOS */
     double a0 = x_i;
     double a1 = vx_i;
     double a2 = 3*(x_f-x_i)/(delta_time * delta_time) - (2*vx_i + vx_f)/delta_time;

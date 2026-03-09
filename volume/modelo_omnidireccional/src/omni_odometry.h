@@ -31,9 +31,6 @@ class OmniOdometry : public rclcpp::Node
     rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr vel_pub_rear_right_;
     rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr pub_odometry_;
 
-  // Acá pueden agregar las variables de instancia que necesiten
-  // ...
-
     double x_, y_, theta_;
 
     bool ticks_initialized_;

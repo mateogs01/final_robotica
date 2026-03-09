@@ -1,6 +1,8 @@
 #include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
 #include <tf2/utils.h>
 #include "localizer.h"
+#include <tf2_ros/buffer.h>
+#include <tf2_ros/transform_listener.h>
 
 robmovil_ekf::Localizer::Localizer() :
   Node("localizer_node"), u(3)
@@ -69,13 +71,40 @@ void robmovil_ekf::Localizer::prediction(const rclcpp::Time& now)
 
 void robmovil_ekf::Localizer::on_posts_array(const geometry_msgs::msg::PoseArray::SharedPtr msg)
 {
-  RCLCPP_INFO(this->get_logger(), "Creating map");
-
-  ekf.set_map(msg);
-
-  return;
+  RCLCPP_INFO(this->get_logger(), "Creating map with rotation");
+  
+  // Posición y orientación inicial del robot en MAP
+  double robot_x = -2.0;      // Ajusta según tu caso
+  double robot_y = 2.0;       // Ajusta según tu caso
+  double robot_theta = M_PI/2; // ¡NECESITAS ESTE VALOR! (en radianes)
+  
+  // Pre-calcular seno y coseno para eficiencia
+  double cos_theta = cos(robot_theta);
+  double sin_theta = sin(robot_theta);
+  
+  std::vector<geometry_msgs::msg::Pose> transformed_poses;
+  transformed_poses.reserve(msg->poses.size());
+  
+  for (const auto& pose : msg->poses) {
+    // Coordenadas del poste relativas al robot
+    double dx = pose.position.x - robot_x;
+    double dy = pose.position.y - robot_y;
+    
+    geometry_msgs::msg::Pose new_pose;
+    // Aplicar rotación inversa (para llevar a odom)
+    new_pose.position.x =  dx * cos_theta + dy * sin_theta;
+    new_pose.position.y = -dx * sin_theta + dy * cos_theta;
+    new_pose.position.z = 0;
+    new_pose.orientation.w = 1.0;
+    
+    transformed_poses.push_back(new_pose);
+  }
+  
+  ekf.set_map(transformed_poses);
+  
+  RCLCPP_INFO(this->get_logger(), "Map transformed with rotation %.2f rad (%.1f°)", 
+              robot_theta, robot_theta * 180.0 / M_PI);
 }
-
 
 void robmovil_ekf::Localizer::on_landmark_array(const robmovil_msgs::msg::LandmarkArray::SharedPtr msg)
 {
@@ -118,8 +147,6 @@ void robmovil_ekf::Localizer::on_landmark_array(const robmovil_msgs::msg::Landma
 
   // Prediccion avanzando el tiempo al momento del sensado
   prediction(msg->header.stamp);
-
-  RCLCPP_INFO(this->get_logger(), "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 
   /* hacer update(s) */
   for (int i = 0; i < msg->landmarks.size(); i++)
