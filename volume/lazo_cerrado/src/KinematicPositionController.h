@@ -23,7 +23,8 @@ class KinematicPositionController : public TrajectoryFollower
     tf2_ros::Buffer tfBuffer_;
     tf2_ros::TransformListener transform_listener_;
     rclcpp::Publisher<geometry_msgs::msg::PoseStamped>::SharedPtr expected_position_pub;
-    rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr current_pos_sub_;
+    rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr current_pos_odom_sub_;
+    rclcpp::Subscription<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr current_pos_ekf_sub_;
 
     
     GoalSelectionType goal_selection_;
@@ -39,6 +40,7 @@ class KinematicPositionController : public TrajectoryFollower
     // funciones auxiliares
     
     void getCurrentPoseFromOdometry(const nav_msgs::msg::Odometry & msg);
+    void getCurrentPoseFromEKF(const geometry_msgs::msg::PoseWithCovarianceStamped & msg);
     
     bool getCurrentGoal(const rclcpp::Time& t, double& x, double& y, double& a)
     {

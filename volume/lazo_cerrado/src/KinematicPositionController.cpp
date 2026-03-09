@@ -3,6 +3,7 @@
 
 #include <cmath>
 
+#define LOOKAHEAD 0.5
 
 KinematicPositionController::KinematicPositionController() :
   TrajectoryFollower(), tfBuffer_(this->get_clock()),transform_listener_( tfBuffer_ )
@@ -12,8 +13,13 @@ KinematicPositionController::KinematicPositionController() :
     qos_profile.durability_volatile();
 
     expected_position_pub = this->create_publisher<geometry_msgs::msg::PoseStamped>("/goal_pose", rclcpp::QoS(10));
-
-    current_pos_sub_ = this->create_subscription<nav_msgs::msg::Odometry>("/robot/odometry", rclcpp::QoS(10), std::bind(&KinematicPositionController::getCurrentPoseFromOdometry, this, std::placeholders::_1));
+    
+    std::string odometry_selection = this->declare_parameter("odometry_selection", "ODOMETRY"); // "EKF", "ODOMETRY"
+    
+    if (odometry_selection == "ODOMETRY")
+        current_pos_odom_sub_ = this->create_subscription<nav_msgs::msg::Odometry>("/robot/odometry", rclcpp::QoS(10), std::bind(&KinematicPositionController::getCurrentPoseFromOdometry, this, std::placeholders::_1));
+    else if (odometry_selection == "EKF")
+        current_pos_ekf_sub_ = this->create_subscription<geometry_msgs::msg::PoseWithCovarianceStamped>("/pose", rclcpp::QoS(10), std::bind(&KinematicPositionController::getCurrentPoseFromEKF, this, std::placeholders::_1));
           
     std::string goal_selection = this->declare_parameter("goal_selection", "TIME_BASED");
     fixed_goal_x_ = this->declare_parameter("fixed_goal_x", 3.0);
@@ -48,6 +54,20 @@ void KinematicPositionController::getCurrentPoseFromOdometry(const nav_msgs::msg
   a = yaw;
 }
 
+void KinematicPositionController::getCurrentPoseFromEKF(const geometry_msgs::msg::PoseWithCovarianceStamped& pose_msg)
+{
+  x = pose_msg.pose.pose.position.x;
+  y = pose_msg.pose.pose.position.y;
+  tf2::Quaternion q(pose_msg.pose.pose.orientation.x,
+                    pose_msg.pose.pose.orientation.y,
+                    pose_msg.pose.pose.orientation.z,
+                    pose_msg.pose.pose.orientation.w);
+  double roll, pitch, yaw;
+  tf2::Matrix3x3(q).getRPY(roll, pitch, yaw);
+  a = yaw;
+}
+
+
 /**
  * NOTA: Para un sistema estable mantener:
  * - 0 < K_RHO
@@ -70,12 +90,6 @@ bool KinematicPositionController::control(const rclcpp::Time& t, double& vx, dou
     return false;
   publishCurrentGoal(t, goal_x, goal_y, goal_a); // publicación de la pose objetivo para visualizar en RViz
 
-  /** EJERCICIO 1: COMPLETAR: Aqui deberan realizar las cuentas necesarias para determinar:
-   *             - la velocidad lineal: asignando la variable v
-   *             - la velocidad angular: asignando la variable w 
-   *  
-   *  RECORDAR: cambiar el marco de referencia en que se encuentran dx, dy y theta */
-  //goal_a = atan2(goal_y + 2, goal_x + 2);
 
   double dxi = goal_x - current_x;
   double dyi = goal_y - current_y;
@@ -88,13 +102,7 @@ bool KinematicPositionController::control(const rclcpp::Time& t, double& vx, dou
   // Computar variables del sistema de control
   double rho = sqrt((dx*dx) + (dy*dy));
   double alpha = angles::normalize_angle(atan2(dy, dx) - theta); // Normalizes the angle to be -M_PI circle to +M_PI circle It takes and returns radians. 
-  //double beta =  angles::normalize_angle(-theta -alpha); // Realizar el calculo dentro del metodo de normalizacion
   
-    //double e_theta = angles::normalize_angle(theta_g - theta);   // theta: actual, theta_g: deseada
-
-  /* Calcular velocidad lineal y angular* 
-   * Existen constantes definidas al comienzo del archivo para
-   * K_RHO, K_ALPHA, K_BETA */
   if (rho>0.01) {
     vx = K_RHO * dx;
     vy = K_RHO * dy;
@@ -121,17 +129,14 @@ double dist2(double x0, double y0, double x1, double y1)
 
 bool KinematicPositionController::getPursuitBasedGoal(const rclcpp::Time& t, double& x, double& y, double& a)
 {
-  // Los obtienen los valores de la posicion y orientacion actual.
+  // Se obtienen los valores de la posicion y orientacion actual.
   double current_x, current_y, current_a;
   current_x = this->x; current_y = this->y; current_a = this->a;
     
   // Se obtiene la trayectoria requerida.
   const robmovil_msgs::msg::Trajectory& trajectory = getTrajectory();
   
-  /** EJERCICIO 3:
-   * Se recomienda encontrar el waypoint de la trayectoria más cercano al robot en términos de x,y
-   * y luego buscar el primer waypoint que se encuentre a una distancia predefinida de lookahead en x,y */
-  double lookahead = 0.5;
+  double lookahead = LOOKAHEAD;
   double wpoint_x = 0;
   double wpoint_y = 0;
   double wpoint_a = 0;
