@@ -1,7 +1,7 @@
 #pragma once
 
 #include <rclcpp/rclcpp.hpp>
-#include <geometry_msgs/msg/twist.hpp>
+#include <geometry_msgs/msg/twist_stamped.hpp>
 #include <robmovil_msgs/msg/multi_encoder_ticks.hpp>
 #include <std_msgs/msg/float64.hpp>
 #include <nav_msgs/msg/odometry.hpp>
@@ -16,13 +16,13 @@ class OmniOdometry : public rclcpp::Node
 
     OmniOdometry();
 
-    void on_velocity_cmd(const geometry_msgs::msg::Twist::SharedPtr twist);
+    void on_velocity_cmd(const geometry_msgs::msg::TwistStamped::SharedPtr twist);
 
     void on_encoder_ticks(const robmovil_msgs::msg::MultiEncoderTicks::SharedPtr encoder);
 
   private:
 
-    rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr twist_sub_;
+    rclcpp::Subscription<geometry_msgs::msg::TwistStamped>::SharedPtr twist_sub_;
     rclcpp::Subscription<robmovil_msgs::msg::MultiEncoderTicks>::SharedPtr encoder_sub_;
 
     rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr vel_pub_front_left_;

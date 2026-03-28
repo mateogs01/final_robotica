@@ -1,0 +1,630 @@
+header:
+  stamp:
+    sec: 3
+    nanosec: 599999999
+  frame_id: base_link
+twist:
+  linear:
+    x: -0.1
+    y: 0.0
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 4
+    nanosec: 649999999
+  frame_id: base_link
+twist:
+  linear:
+    x: -0.2
+    y: 0.0
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 5
+    nanosec: 649999999
+  frame_id: base_link
+twist:
+  linear:
+    x: -0.3
+    y: 0.0
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 6
+    nanosec: 649999999
+  frame_id: base_link
+twist:
+  linear:
+    x: -0.4
+    y: 0.0
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 7
+    nanosec: 649999999
+  frame_id: base_link
+twist:
+  linear:
+    x: -0.5
+    y: 0.0
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 8
+    nanosec: 649999999
+  frame_id: base_link
+twist:
+  linear:
+    x: -0.6
+    y: 0.0
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 9
+    nanosec: 700000000
+  frame_id: base_link
+twist:
+  linear:
+    x: -0.7
+    y: 0.0
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 10
+    nanosec: 700000000
+  frame_id: base_link
+twist:
+  linear:
+    x: -0.8
+    y: 0.0
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 11
+    nanosec: 700000000
+  frame_id: base_link
+twist:
+  linear:
+    x: -0.9
+    y: 0.0
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 12
+    nanosec: 700000000
+  frame_id: base_link
+twist:
+  linear:
+    x: -1.0
+    y: 0.0
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 13
+    nanosec: 700000000
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 15
+    nanosec: 700000000
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.0
+    y: -0.1
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 16
+    nanosec: 700000000
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.0
+    y: -0.2
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 17
+    nanosec: 700000000
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.0
+    y: -0.3
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 18
+    nanosec: 700000000
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.0
+    y: -0.4
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 19
+    nanosec: 700000000
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.0
+    y: -0.5
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 20
+    nanosec: 700000000
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.0
+    y: -0.6
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 21
+    nanosec: 700000000
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.0
+    y: -0.7
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 22
+    nanosec: 700000000
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.0
+    y: -0.8
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 23
+    nanosec: 700000000
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.0
+    y: -0.9
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 24
+    nanosec: 700000000
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.0
+    y: -1.0
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 25
+    nanosec: 700000000
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 27
+    nanosec: 700000000
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.3
+---
+header:
+  stamp:
+    sec: 28
+    nanosec: 700000000
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.6
+---
+header:
+  stamp:
+    sec: 29
+    nanosec: 700000000
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.9
+---
+header:
+  stamp:
+    sec: 30
+    nanosec: 700000000
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 1.2
+---
+header:
+  stamp:
+    sec: 31
+    nanosec: 700000000
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 1.5
+---
+header:
+  stamp:
+    sec: 32
+    nanosec: 700000000
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 1.8
+---
+header:
+  stamp:
+    sec: 33
+    nanosec: 700000000
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 2.1
+---
+header:
+  stamp:
+    sec: 35
+    nanosec: 700000000
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 37
+    nanosec: 749999999
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.1
+    y: 0.1
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 38
+    nanosec: 749999999
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.2
+    y: 0.2
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 39
+    nanosec: 749999999
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.3
+    y: 0.3
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 40
+    nanosec: 749999999
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.4
+    y: 0.4
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 41
+    nanosec: 749999999
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.5
+    y: 0.5
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 42
+    nanosec: 749999999
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.5
+    y: 0.5
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 43
+    nanosec: 749999999
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.4
+    y: 0.5
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 44
+    nanosec: 749999999
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.3
+    y: 0.5
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 45
+    nanosec: 749999999
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.2
+    y: 0.5
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 46
+    nanosec: 749999999
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.1
+    y: 0.5
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 47
+    nanosec: 749999999
+  frame_id: base_link
+twist:
+  linear:
+    x: -0.5
+    y: 0.5
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 49
+    nanosec: 749999999
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---

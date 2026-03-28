@@ -14,7 +14,7 @@ using namespace robmovil;
 OmniOdometry::OmniOdometry() : Node("nodeOdometry"), x_(0), y_(0), theta_(0), ticks_initialized_(false)
 {
   // Nos suscribimos a los comandos de velocidad en el tópico "/robot/cmd_vel" de tipo geometry_msgs::Twist
-  twist_sub_ = this->create_subscription<geometry_msgs::msg::Twist>("/cmd_vel", rclcpp::QoS(10), std::bind(&OmniOdometry::on_velocity_cmd, this, std::placeholders::_1));
+  twist_sub_ = this->create_subscription<geometry_msgs::msg::TwistStamped>("/cmd_vel", rclcpp::QoS(10), std::bind(&OmniOdometry::on_velocity_cmd, this, std::placeholders::_1));
 
   vel_pub_front_left_ = this->create_publisher<std_msgs::msg::Float64>("/robot/front_left_wheel/cmd_vel", rclcpp::QoS(10));
   vel_pub_front_right_ = this->create_publisher<std_msgs::msg::Float64>("/robot/front_right_wheel/cmd_vel", rclcpp::QoS(10));
@@ -28,11 +28,11 @@ OmniOdometry::OmniOdometry() : Node("nodeOdometry"), x_(0), y_(0), theta_(0), ti
   tf_broadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(*this);
 }
 
-void OmniOdometry::on_velocity_cmd(const geometry_msgs::msg::Twist::SharedPtr twist)
+void OmniOdometry::on_velocity_cmd(const geometry_msgs::msg::TwistStamped::SharedPtr twist)
 {
-  double linearVel = twist->linear.x;
-  double transvVel = twist->linear.y;
-  double angularVel = twist->angular.z;
+  double linearVel = twist->twist.linear.x;
+  double transvVel = twist->twist.linear.y;
+  double angularVel = twist->twist.angular.z;
      
   double vLeftFront =  1 / WHEEL_RADIUS * (linearVel - transvVel - angularVel * (WHEEL_BASELINE*2));
   double vRightFront = 1 / WHEEL_RADIUS * (linearVel + transvVel + angularVel * (WHEEL_BASELINE*2));
