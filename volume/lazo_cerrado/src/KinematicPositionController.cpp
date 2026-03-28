@@ -3,7 +3,33 @@
 
 #include <cmath>
 
-#define LOOKAHEAD 0.5
+/**
+ * NOTA: Para un sistema estable mantener:
+ * - 0 < K_RHO
+ * - K_RHO < K_ALPHA
+ * - K_BETA < 0
+ */
+
+/*
+K_RHO = 0.2, 0.4, 0.8
+K_alpha = 0.5, 1, 1.5
+LOOKAHEAD = 0.2, 0.5, 1
+
+exp1 = .5,1,.5
+
+exp2 = .2,1,.5
+exp3 = .9,1,.5
+
+exp4 = .5,.6,.5
+exp5 = .5,1.4,.5
+
+exp6 = .5,1,1
+exp7 = .5,1,.2
+*/
+
+#define K_RHO .5
+#define K_ALPHA 1
+#define LOOKAHEAD 1
 
 KinematicPositionController::KinematicPositionController() :
   TrajectoryFollower(), tfBuffer_(this->get_clock()),transform_listener_( tfBuffer_ )
@@ -67,16 +93,6 @@ void KinematicPositionController::getCurrentPoseFromEKF(const geometry_msgs::msg
   a = yaw;
 }
 
-
-/**
- * NOTA: Para un sistema estable mantener:
- * - 0 < K_RHO
- * - K_RHO < K_ALPHA
- * - K_BETA < 0
- */
-#define K_RHO .5
-#define K_ALPHA 1
-#define K_BETA -0.2
 
 bool KinematicPositionController::control(const rclcpp::Time& t, double& vx, double& vy, double& w)
 {

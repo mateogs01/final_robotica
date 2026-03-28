@@ -1,0 +1,1 @@
+WARNING: topic [/robot/ground_truth] does not appear to be published yet

@@ -1,5 +1,5 @@
 #include <rclcpp/rclcpp.hpp>
-#include <geometry_msgs/msg/twist.hpp>
+#include <geometry_msgs/msg/twist_stamped.hpp>
 #include <robmovil_msgs/msg/trajectory.hpp>
 
 class TrajectoryFollower : public rclcpp::Node
@@ -32,7 +32,7 @@ class TrajectoryFollower : public rclcpp::Node
 
     rclcpp::TimerBase::SharedPtr timer_;
 
-    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_pub_;
+    rclcpp::Publisher<geometry_msgs::msg::TwistStamped>::SharedPtr cmd_pub_;
 
     rclcpp::Subscription<robmovil_msgs::msg::Trajectory>::SharedPtr trajectory_sub_;
 

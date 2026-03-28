@@ -1,5 +1,5 @@
 #include <lazo_cerrado/TrajectoryFollower.h>
-#include <geometry_msgs/msg/twist.hpp>
+#include <geometry_msgs/msg/twist_stamped.hpp>
 
 TrajectoryFollower::TrajectoryFollower() : Node("nodeTrajectoryFollower")
 {
@@ -7,7 +7,7 @@ TrajectoryFollower::TrajectoryFollower() : Node("nodeTrajectoryFollower")
   qos_profile.reliable();
   qos_profile.transient_local();
 
-  cmd_pub_ = this->create_publisher<geometry_msgs::msg::Twist>("/cmd_vel", rclcpp::QoS(10));
+  cmd_pub_ = this->create_publisher<geometry_msgs::msg::TwistStamped>("/cmd_vel", rclcpp::QoS(10));
 
   trajectory_sub_ = this->create_subscription<robmovil_msgs::msg::Trajectory>("/robot/trajectory", qos_profile, std::bind(&TrajectoryFollower::handleNewTrajectory, this, std::placeholders::_1));
 }
@@ -38,22 +38,22 @@ void TrajectoryFollower::timerCallback()
     RCLCPP_INFO(this->get_logger(), "Trajectory finished");
     timer_->cancel();
     
-    geometry_msgs::msg::Twist cmd;
+    geometry_msgs::msg::TwistStamped cmd;
     cmd_pub_->publish( cmd ); // se detiene luego de terminar el trayecto
     return;
   }
 
   // Crear mensaje
 
-  geometry_msgs::msg::Twist cmd;
+  geometry_msgs::msg::TwistStamped cmd;
 
-  cmd.linear.x = vx;
-  cmd.linear.y = vy;
-  cmd.linear.z = 0;
+  cmd.twist.linear.x = vx;
+  cmd.twist.linear.y = vy;
+  cmd.twist.linear.z = 0;
 
-  cmd.angular.x = 0;
-  cmd.angular.y = 0;
-  cmd.angular.z = w;
+  cmd.twist.angular.x = 0;
+  cmd.twist.angular.y = 0;
+  cmd.twist.angular.z = w;
 
   cmd_pub_->publish( cmd );
 }

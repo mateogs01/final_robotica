@@ -1,7 +1,7 @@
 from launch import LaunchDescription
 from launch_ros.actions import Node
 
-
+# Note: each waypoint must have 4 values: time(sec), position_x(m), position_y(m), orientation(rad)
 splines = [
             [
                 0.,   0.,  0., 0.,
@@ -59,12 +59,12 @@ def generate_launch_description():
                 {'spline_waypoints': splines[0]}
             ],  
         ),
-	# Note: each waypoint must have 4 values: time(sec), position_x(m), position_y(m), orientation(rad)
-        Node(
-            package="lazo_cerrado",
-            executable="logger",
-            name="logger",
-            output="screen",
-            parameters=[{'use_sim_time': True}]
-        ),
+
+#        Node(
+#            package="lazo_cerrado",
+#            executable="logger",
+#            name="logger",
+#            output="screen",
+#            parameters=[{'use_sim_time': True}]
+#        ),
     ])
