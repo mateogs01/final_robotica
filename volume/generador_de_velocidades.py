@@ -57,6 +57,20 @@ seq2 = [
             (5.0, -0.2, 0.0, 1.0),
         ]
 
+seq3 = [
+            (5.0, -0.3, 0.0, 0.0),
+            (5.0, 0.0, -0.3, 0.0),
+            (5.0, 0.3,  0.0, 0.0),
+            (5.0, 0.0,  0.3, 0.0),
+            (10.0, -0.2, -0.2, 0.0),
+            (5.0, -0.3, 0.0, 1.25),
+            (5.0, -0.3, 0.0, 1.0),
+            (5.0, -0.3, 0.0, 0.75),
+            (5.0, -0.3, 0.0, 0.5),
+            (5.0, -0.3, 0.0, 0.25),
+        ]
+
+
 class TimedSequenceNode(Node):
     def __init__(self):
         super().__init__('generador_velocidades')
@@ -64,7 +78,7 @@ class TimedSequenceNode(Node):
         self.publisher = self.create_publisher(TwistStamped, '/cmd_vel', 10)
         
         # Definir la secuencia: (duración_segundos, velocidad_lineal_x, velocidad_lineal_y, velocidad_angular_z)
-        self.sequence = seq2
+        self.sequence = seq3
         
         self.current_step = 0
         self.clock = self.get_clock()

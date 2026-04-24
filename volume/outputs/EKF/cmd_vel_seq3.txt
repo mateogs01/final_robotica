@@ -1,0 +1,165 @@
+header:
+  stamp:
+    sec: 10
+    nanosec: 200000000
+  frame_id: base_link
+twist:
+  linear:
+    x: -0.3
+    y: 0.0
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 15
+    nanosec: 200000000
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.0
+    y: -0.3
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 20
+    nanosec: 200000000
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.3
+    y: 0.0
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 25
+    nanosec: 200000000
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.0
+    y: 0.3
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 30
+    nanosec: 200000000
+  frame_id: base_link
+twist:
+  linear:
+    x: -0.2
+    y: -0.2
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
+header:
+  stamp:
+    sec: 40
+    nanosec: 249999999
+  frame_id: base_link
+twist:
+  linear:
+    x: -0.3
+    y: 0.0
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 1.25
+---
+header:
+  stamp:
+    sec: 45
+    nanosec: 249999999
+  frame_id: base_link
+twist:
+  linear:
+    x: -0.3
+    y: 0.0
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 1.0
+---
+header:
+  stamp:
+    sec: 50
+    nanosec: 249999999
+  frame_id: base_link
+twist:
+  linear:
+    x: -0.3
+    y: 0.0
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.75
+---
+header:
+  stamp:
+    sec: 55
+    nanosec: 249999999
+  frame_id: base_link
+twist:
+  linear:
+    x: -0.3
+    y: 0.0
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.5
+---
+header:
+  stamp:
+    sec: 60
+    nanosec: 249999999
+  frame_id: base_link
+twist:
+  linear:
+    x: -0.3
+    y: 0.0
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.25
+---
+header:
+  stamp:
+    sec: 65
+    nanosec: 249999999
+  frame_id: base_link
+twist:
+  linear:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---

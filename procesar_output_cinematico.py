@@ -120,12 +120,14 @@ def procesar_pos(ruta_archivo, gt=False, eulerindex=2):
 
 
 # %%
+carpeta = "volume/outputs/"
+exp = "1"
 
-df_cmd_vel = procesar_cmd('volume/outputs/cmd_vel_1.txt')
+df_cmd_vel = procesar_cmd(f'{carpeta}/cmd_vel_{exp}.txt')
 print("DataFrame cmd:")
 print(df_cmd_vel)
 
-df_odom = procesar_odom('volume/outputs/odom_1.txt')
+df_odom = procesar_odom(f'{carpeta}/odom_{exp}.txt')
 print("DataFrame odom:")
 print(df_odom)
 
@@ -239,45 +241,81 @@ plt.show()
 
 
 # %%
-df_odom = procesar_pos('volume/outputs/odom_2.txt', eulerindex=2)
+carpeta = "volume/outputs/EKF"
+exp = "seq3"
+
+df_odom = procesar_pos(f'{carpeta}/odom_{exp}.txt', eulerindex=2)
 print("DataFrame odom:")
 print(df_odom)
 
-df_gt = procesar_pos('volume/outputs/gt_2.txt', gt=True, eulerindex=2)
+df_gt = procesar_pos(f'{carpeta}/gt_{exp}.txt', gt=True, eulerindex=2)
 print("DataFrame gt:")
 print(df_gt)
 
-# %%
+df_ekf = procesar_pos(f'{carpeta}/ekf_{exp}.txt')
+print("DataFrame ekf:")
+print(df_ekf)
 
+figheight = 5
+linewidth = 4
+linewidth_ekf = 3
+
+# %%
 ti = df_gt.iloc[0].timestamp
 tf = df_gt.iloc[-1].timestamp
 
-plt.scatter(df_gt.x, df_gt.y, c=df_gt.timestamp-ti, s=5)
-plt.plot(df_odom.x, df_odom.y, c='r')
-plt.colorbar()
+fig, ax = plt.subplots(figsize=(figheight,figheight))
 
-points = []
+ax.plot(df_odom.x, df_odom.y, c='r', lw=linewidth, zorder=-1, label="Odometría")
+gt = ax.scatter(df_gt.x, df_gt.y, c=df_gt.timestamp-ti, cmap="winter", s=20, label="Ground Truth")
+# ax.plot(df_ekf.x, df_ekf.y, c='k', ls=(0,(4,2,1,2)), lw=linewidth_ekf, label="Odometría + EKF")
 
-for t in range(t1,tf,2):
-    points.append()
+ax.set_aspect(1)
+ax.legend()
 
-# %%
-plt.plot(df_odom.timestamp-ti, df_odom.x, label='x')
-plt.plot(df_odom.timestamp-ti, df_odom.y, label='y')
-plt.plot(df_odom.timestamp-ti, df_gt.x, label='x truth')
-plt.plot(df_odom.timestamp-ti, df_gt.y, label='y truth')
+plt.colorbar(gt, label="Tiempo (seg)")
+ax.set_ylabel('Y (m)')
+ax.set_xlabel('X (m)')
+plt.tight_layout()
 
-plt.legend()
-plt.ylabel('Velocidad (m/seg)')
-plt.xlabel('Tiempo (seg)')
 plt.show()
 
 # %%
+fig, ax = plt.subplots(figsize=(figheight*1.5,figheight))
 
-plt.plot(df_odom.timestamp-ti, np.unwrap(df_odom.theta), label='theta')
-plt.plot(df_odom.timestamp-ti, np.unwrap(df_gt.theta), label='theta truth')
+ax.plot(df_odom.timestamp-ti, df_odom.x, lw=linewidth, label='X Odometría')
+ax.plot(df_odom.timestamp-ti, df_odom.y, lw=linewidth, label='Y Odometría')
+ax.plot(df_gt.timestamp-ti, df_gt.x, lw=linewidth, label='X Ground Truth')
+ax.plot(df_gt.timestamp-ti, df_gt.y, lw=linewidth, label='Y Ground Truth')
+# ax.plot(df_ekf.timestamp-ti, df_ekf.x, c='k', ls=(0,(8,8)), lw=linewidth_ekf, label='X Odometría + EKF')
+# ax.plot(df_ekf.timestamp-ti, df_ekf.y, c='k', ls=(0,(8,8)), lw=linewidth_ekf, label='Y Odometría + EKF')
+
+plt.legend()
+plt.ylabel('Distancia (m)')
+plt.xlabel('Tiempo (seg)')
+plt.tight_layout()
+plt.show()
+
+# %%
+fig, ax = plt.subplots(figsize=(figheight,figheight), subplot_kw={'projection': 'polar'})
+
+ax.plot(np.unwrap(df_odom.theta), df_odom.timestamp-ti, lw=linewidth, label='Theta Odometría')
+ax.plot(np.unwrap(df_gt.theta), df_gt.timestamp-ti, lw=linewidth, label='Theta Ground Truth')
+# ax.plot(np.unwrap(df_ekf.theta), df_ekf.timestamp-ti,'k', ls=(0,(4,2,1,2)), lw=linewidth_ekf, label='Theta Odometría + EKF')
+
+plt.legend()
+plt.tight_layout()
+plt.show()
+
+# %%
+fig, ax = plt.subplots(figsize=(figheight*1.5,figheight))
+
+ax.plot(df_odom.timestamp-ti, np.unwrap(df_odom.theta), lw=linewidth, label='Theta Odometría')
+ax.plot(df_gt.timestamp-ti, np.unwrap(df_gt.theta), lw=linewidth, label='Theta Ground Truth')
+# plt.plot(df_ekf.timestamp-ti, np.unwrap(df_ekf.theta), 'k', ls=(0,(4,2,1,2)), lw=linewidth_ekf, label='Theta Odometría + EKF')
 
 plt.legend()
 plt.ylabel('Angulo (theta)')
 plt.xlabel('Tiempo (seg)')
+plt.tight_layout()
 plt.show()
